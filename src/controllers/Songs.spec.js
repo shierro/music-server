@@ -33,7 +33,7 @@ describe('src/controllers/Songs.js', () => {
 
   it('should get song by key successfully', async () => {
     const readStream = fs.createReadStream(`${process.cwd()}/test-helper/test.mp3`);
-    const fakeFnc = () => ({ getStream: () => readStream });
+    const fakeFnc = () => ({ getStreamAndSetHeaders: () => readStream });
     const stub = sinon.stub(awsService.s3, 'getObject').callsFake(fakeFnc);
     const result = await request(server)
       .get('/api/songs/testKey')

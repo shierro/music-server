@@ -31,13 +31,9 @@ const SongsController = {
    * @fires res.pipe to stream song data
    */
   getByKey({ params: { key } }, res, next) {
-    const stream = awsService.getBucketFileReadStream(S3_BUCKET_NAME, key);
+    const stream = awsService.getBucketFileReadStream(S3_BUCKET_NAME, key, res);
     stream.pipe(res);
-    stream.on('httpHeaders', (code, headers) => {
-      if (code < 300) {
-        res.set(headers);
-      }
-    }).on('end', () => {
+    stream.on('end', () => {
       stream.destroy();
       res.end();
     }).on('error', (err) => {
