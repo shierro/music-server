@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Video Player</title>
+  <link rel="stylesheet" href="https://cdn.plyr.io/3.4.3/plyr.css">
+  <script src="https://cdn.plyr.io/3.4.3/plyr.js"></script>
+</head>
+<body>
+    <video src="http://localhost:5000/api/songs/d6f56cd3-f107-4a46-8efc-d13a623fa190" id="player" controls data-plyr-config='{ "title": "This is an example video", "volume": 1, "debug": true }'></video>
+    <script>
+      var player = new Plyr('#player');
+    </script>
+</body>
+</html>

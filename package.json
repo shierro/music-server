@@ -1,0 +1,74 @@
+{
+  "name": "music-server",
+  "version": "0.1.0",
+  "description": "Stateless NodeJS app to serve music data through REST APIs",
+  "main": "./src/index.js",
+  "engines": {
+    "node": ">=7.0"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "es6",
+    "streaming",
+    "music"
+  ],
+  "scripts": {
+    "start": "node ./src/index.js",
+    "dev": "nodemon ./src/index.js",
+    "start:watch": "npm-run-all --parallel run:watch lint:watch test:watch",
+    "lint": "eslint --ignore-path .eslintignore  . ",
+    "lint:watch": "esw --ignore-path .eslintignore  . --watch",
+    "test:specs": "cross-env NODE_ENV=test PORT=48000 STATUS_USERNAME=test STATUS_PASSWORD=test mocha --recursive --exit ./src/",
+    "test:specs:watch": "npm run test:specs -- --watch",
+    "test": "npm run test:specs",
+    "test:watch": "npm-run-all --parallel test:spec:watch",
+    "cover": "cross-env NODE_ENV=test PORT=48000 STATUS_USERNAME=test STATUS_PASSWORD=test nyc mocha --recursive --exit ./src/",
+    "postcover": "cp coverage/coverage-final.json coverage/coverage.json",
+    "nsp": "./node_modules/.bin/nsp check --output summary"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shierro/music-server"
+  },
+  "author": "Theodoro S. Pelingan Jr.",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "cross-env": "^5.1.4",
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^12.0.1",
+    "eslint-plugin-import": "^2.11.0",
+    "mocha": "^5.1.0",
+    "nodemon": "^1.17.3",
+    "npm-run-all": "^4.1.1",
+    "nsp": "^3.2.1",
+    "nyc": "^12.0.1",
+    "pre-commit": "^1.2.2",
+    "rimraf": "^2.6.2",
+    "sinon": "^6.1.5",
+    "supertest": "^3.0.0"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.296.0",
+    "body-parser": "^1.18.2",
+    "compression": "^1.7.2",
+    "cors": "^2.8.4",
+    "dotenv-safe": "^6.0.0",
+    "express": "^4.16.3",
+    "express-healthcheck": "^0.1.0",
+    "helmet": "^3.12.0",
+    "http-auth": "^3.2.3",
+    "morgan": "^1.9.0",
+    "multer": "^1.3.1",
+    "multer-s3": "^2.7.0",
+    "uuid": "^3.3.2",
+    "winston": "^3.0.0",
+    "winston-daily-rotate-file": "^3.1.2"
+  },
+  "pre-commit": [
+    "lint",
+    "nsp",
+    "cover"
+  ]
+}
