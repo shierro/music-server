@@ -1,6 +1,6 @@
 {
   "name": "music-server",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Stateless NodeJS app to serve music data through REST APIs",
   "main": "./src/index.js",
   "engines": {

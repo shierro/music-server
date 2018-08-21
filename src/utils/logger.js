@@ -26,15 +26,13 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 /* istanbul ignore next */
-const logger = process.env.NODE_ENV !== 'test' ?
-  winston.createLogger({ transports }) :
-  {
-    // log: () => { },
-    log: console.log,
-    info: console.info,
+const logger = process.env.NODE_ENV !== 'test'
+  ? winston.createLogger({ transports })
+  : {
+    log: () => { },
+    info: () => { },
     warn: () => { },
-    // error: () => { },
-    error: console.error,
+    error: () => { },
     debug: () => { },
   };
 
@@ -45,4 +43,3 @@ logger.logStream = {
 };
 
 module.exports = logger;
-
