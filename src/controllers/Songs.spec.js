@@ -2,7 +2,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const request = require('supertest');
-const AWS = require('aws-sdk');
+const fs = require('fs');
 const awsService = require('../services/aws');
 const s3Bucket = require('../middlewares/S3bucket');
 const server = require('../index');
@@ -32,16 +32,13 @@ describe('src/controllers/Songs.js', () => {
   });
 
   it('should get song by key successfully', async () => {
-    const fakeFnc = (res) => {
-      res.send('ok');
-      return { on: () => true };
-    };
-    const stub = sinon.stub(AWS.Request.prototype, 'forwardToExpressResp').callsFake(fakeFnc);
+    const readStream = fs.createReadStream(`${process.cwd()}/test-helper/test.mp3`);
+    const fakeFnc = () => ({ getStream: () => readStream });
+    const stub = sinon.stub(awsService.s3, 'getObject').callsFake(fakeFnc);
     const result = await request(server)
       .get('/api/songs/testKey')
       .send();
     expect(result.status).to.equal(200);
-    expect(result.text).to.equal('ok');
     stub.restore();
   });
 
@@ -82,7 +79,7 @@ describe('src/controllers/Songs.js', () => {
 
   // unable to stub middleware function uploadSongs!
   // TODO: fix this unit test
-  it.skip('should be able to test', async () => {
+  it.skip('should be able to upload multiple songs successfully', async () => {
     const fakeFnc = (req, res, next) => {
       req.files = [{ key: 1, originalname: 'origFile1' }];
       next();

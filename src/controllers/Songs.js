@@ -31,7 +31,22 @@ const SongsController = {
    * @fires res.pipe to stream song data
    */
   getByKey({ params: { key } }, res, next) {
-    awsService.streamBucketFile(S3_BUCKET_NAME, key, res).on('error', next);
+    const stream = awsService.getBucketFileReadStream(S3_BUCKET_NAME, key);
+    stream.pipe(res);
+    stream.on('httpHeaders', (code, headers) => {
+      if (code < 300) {
+        res.set(headers);
+      }
+    }).on('end', () => {
+      stream.destroy();
+      res.end();
+    }).on('error', (err) => {
+      const error = Object.assign(err);
+      if (error.code === 'NoSuchKey') {
+        error.status = 404;
+      }
+      next(err);
+    });
   },
   /**
    * Get song metadata from s3 bucket

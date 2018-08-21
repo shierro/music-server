@@ -3,20 +3,8 @@ const AWS = require('aws-sdk');
 const s3 = new AWS.S3({ httpOptions: { timeout: 180000 } });
 
 // hack through AWS request object to be able to set http headers
-AWS.Request.prototype.forwardToExpressResp = function forwardToExpressResp(res) {
-  const stream = this
-    .on('httpHeaders', (code, headers) => {
-      if (code < 300) {
-        res.set(headers);
-      }
-    })
-    .on('end', () => {
-      stream.destroy();
-      res.end();
-    })
-    .createReadStream()
-    .pipe(res);
-  return stream;
+AWS.Request.prototype.getStream = function getStream() {
+  return this.createReadStream();
 };
 
 const awsService = {
@@ -37,15 +25,14 @@ const awsService = {
     }
   },
   /**
-   * Get s3 bucket content
-   * @function streamBucketFile
+   * Get s3 bucket file stream
+   * @function getBucketFileReadStream
    * @param Bucket Bucket name
    * @param Key bucket Key
-   * @param res expressJS response object
    * @returns nodeJS stream
    */
-  streamBucketFile(Bucket, Key, res) {
-    return s3.getObject({ Bucket, Key }).forwardToExpressResp(res);
+  getBucketFileReadStream(Bucket, Key) {
+    return s3.getObject({ Bucket, Key }).getStream();
   },
   /**
    * Try to create S3 bucket if it does not exist
