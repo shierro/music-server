@@ -1,6 +1,6 @@
 {
   "name": "music-server",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Stateless NodeJS app to serve music data through REST APIs",
   "main": "./src/index.js",
   "engines": {
@@ -63,6 +63,7 @@
     "multer": "^1.3.1",
     "multer-s3": "^2.7.0",
     "uuid": "^3.3.2",
+    "uuid-validate": "https://github.com/shierro/uuid-validate/tarball/master",
     "winston": "^3.0.0",
     "winston-daily-rotate-file": "^3.1.2"
   },

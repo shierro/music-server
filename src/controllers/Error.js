@@ -11,9 +11,10 @@ const generalError = (err, req, res, next) => {
     status: err.status || 500,
     message: err.message || 'Server Error',
   };
-
-  logger.error(`Sending ${error.status} response:`, req.path, err);
-  res.status(error.status).json(error);
+  if (!res.headersSent) {
+    res.status(error.status).json(error);
+  }
+  logger.error(`Status[${error.status}] response:`, req.path, err);
 };
 
 module.exports = {

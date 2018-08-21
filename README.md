@@ -53,6 +53,7 @@ $ docker-compose up -d
 ```
 
 ## Things to improve
+- [ ] Get songs API to return list w/ metadata
 - [ ] Comment on all functions using jsdoc standards
 - [ ] Integrate swagger for better API documentation
 - [ ] Integrate jsdoc to auto-generate code documentation

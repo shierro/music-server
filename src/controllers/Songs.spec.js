@@ -21,11 +21,8 @@ describe('src/controllers/Songs.js', () => {
 
   it('should fail gracefully when there is an error thrown', async () => {
     const error = { message: 'connection timeout' };
-    const reject = Promise.reject(error);
-    const stub = sinon.stub(awsService, 'getBucketContent').callsFake(() => reject);
-    const result = await request(server)
-      .get('/api/songs')
-      .send();
+    const stub = sinon.stub(awsService, 'getBucketContent').rejects(error);
+    const result = await request(server).get('/api/songs').send();
     expect(result.status).to.equal(500);
     expect(JSON.parse(result.text)).to.deep.equal({ ...error, status: 500 });
     stub.restore();
@@ -77,6 +74,17 @@ describe('src/controllers/Songs.js', () => {
     stub.restore();
   });
 
+  it('should be able to upload multiple songs successfully', (done) => {
+    const controller = require('./Songs');
+    const req = { files: [{ originalname: 'test1', key: 1 }, { originalname: 'test2', key: 2 }] };
+    const res = {
+      json: (data) => {
+        expect(data).to.deep.equal(req.files);
+        done();
+      },
+    };
+    controller.uploadSuccess(req, res);
+  });
   // unable to stub middleware function uploadSongs!
   // TODO: fix this unit test
   it.skip('should be able to upload multiple songs successfully', async () => {

@@ -17,9 +17,9 @@
   ],
   "sourceMap": true,
   "instrument": true,
-  "lines": 50,
-  "statements": 50,
-  "functions": 0,
+  "lines": 85,
+  "statements": 85,
+  "functions": 50,
   "branches": 0,
   "watermarks": {
     "lines": [70, 80],
