@@ -3,7 +3,7 @@ env:
   global:
     - CC_TEST_REPORTER_ID=$CC_TEST_REPORTER_ID
 node_js:
-  - 8.9.4
+  - 8.10.0
 dist: trusty
 addons:
   chrome: stable
