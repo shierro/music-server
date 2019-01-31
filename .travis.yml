@@ -4,11 +4,12 @@ env:
     - CC_TEST_REPORTER_ID=$CC_TEST_REPORTER_ID
 node_js:
   - 8.10.0
+  - 10.15.0
 dist: trusty
 addons:
   chrome: stable
 before_script:
-  - npm install -g codecov yarn nyc
+  - npm install -g codecov yarn@latest nyc
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build --debug
